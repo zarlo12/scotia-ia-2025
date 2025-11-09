@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Scotiabank - Nuestro Legado</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px;
+            flex: 1;
+        }
+
+        /* Logo */
+        .logo-container {
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Título */
+        .title {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        .title-black {
+            color: #000000;
+            font-weight: 300;
+        }
+
+        .title-orange {
+            color: #EC1C24;
+            font-weight: 700;
+        }
+
+        /* Unity Container */
+        .unity-wrapper {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 24px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #unity-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 8 / 5;
+            background: #231F20;
+        }
+
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #231F20;
+        }
+
+        #unity-loading-bar {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        #unity-logo {
+            width: 154px;
+            height: 130px;
+            background: url('TemplateData/unity-logo-dark.png') no-repeat center;
+        }
+
+        #unity-progress-bar-empty {
+            width: 141px;
+            height: 18px;
+            margin-top: 10px;
+            margin-left: 6.5px;
+            background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center;
+        }
+
+        #unity-progress-bar-full {
+            width: 0%;
+            height: 18px;
+            margin-top: 10px;
+            background: url('TemplateData/progress-bar-full-dark.png') no-repeat center;
+        }
+
+        #unity-warning {
+            position: absolute;
+            left: 50%;
+            top: 5%;
+            transform: translate(-50%);
+            background: white;
+            padding: 10px;
+            display: none;
+        }
+
+        /* Botones */
+        .buttons-container {
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background-color: #EC1C24;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(236, 28, 36, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(236, 28, 36, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #EC1C24;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(236, 28, 36, 0.3);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(236, 28, 36, 0.3);
+        }
+
+        /* Responsivo para pantallas muy pequeñas */
+        @media (max-width: 360px) {
+            .container {
+                padding: 16px 12px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+        }
+
+        /* Responsivo para pantallas más grandes */
+        @media (min-width: 481px) {
+            .container {
+                max-width: 600px;
+            }
+
+            .logo-container {
+                max-width: 320px;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+
+            .buttons-container {
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="logo.png" alt="Scotiabank Logo">
+        </div>
+
+        <!-- Título -->
+        <h1 class="title">
+            <span class="title-black">Nuestro</span>
+            <span class="title-orange">Legado</span>
+        </h1>
+
+        <!-- Unity Container -->
+        <div class="unity-wrapper">
+            <div id="unity-container">
+                <canvas id="unity-canvas" tabindex="-1"></canvas>
+                <div id="unity-loading-bar">
+                    <div id="unity-logo"></div>
+                    <div id="unity-progress-bar-empty">
+                        <div id="unity-progress-bar-full"></div>
+                    </div>
+                </div>
+                <div id="unity-warning"></div>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="buttons-container">
+            <button class="btn btn-primary" onclick="iniciarExperiencia()">Vivir Experiencia IA</button>
+            <button class="btn btn-secondary" onclick="verAvatares()">Ver Avatares creados</button>
+        </div>
+    </div>
+
+    <script>
+        var canvas = document.querySelector("#unity-canvas");
+        var unityInstanceGlobal;
+
+        // Shows a temporary message banner/ribbon for a few seconds, or
+        // a permanent error message on top of the canvas if type=='error'.
+        // If type=='warning', a yellow highlight color is used.
+        function unityShowBanner(msg, type) {
+            var warningBanner = document.querySelector("#unity-warning");
+            function updateBannerVisibility() {
+                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+            }
+            var div = document.createElement('div');
+            div.innerHTML = msg;
+            warningBanner.appendChild(div);
+            if (type == 'error') div.style = 'background: red; padding: 10px;';
+            else {
+                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+                setTimeout(function () {
+                    warningBanner.removeChild(div);
+                    updateBannerVisibility();
+                }, 5000);
+            }
+            updateBannerVisibility();
+        }
+
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/Builds.loader.js";
+        var config = {
+            arguments: [],
+            dataUrl: buildUrl + "/Builds.data",
+            frameworkUrl: buildUrl + "/Builds.framework.js",
+            codeUrl: buildUrl + "/Builds.wasm",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DefaultCompany",
+            productName: "ScotiaBank 3 Dias",
+            productVersion: "0.1.0",
+            showBanner: unityShowBanner,
+        };
+
+        // Configuración automática para móviles
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            // config.devicePixelRatio = 1; // Descomenta si necesitas mejor rendimiento
+        }
+
+        // Mostrar barra de carga
+        document.querySelector("#unity-loading-bar").style.display = "block";
+
+        // Cargar Unity
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+            }).then((unityInstance) => {
+                unityInstanceGlobal = unityInstance;
+                document.querySelector("#unity-loading-bar").style.display = "none";
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+
+        document.body.appendChild(script);
+
+        // Funciones de los botones
+        function iniciarExperiencia() {
+            // Aquí puedes agregar la lógica para iniciar la experiencia IA
+            // Por ejemplo, enviar un mensaje a Unity:
+            // unityInstanceGlobal.SendMessage('GameObjectName', 'MethodName', 'parameter');
+            console.log('Iniciando Experiencia IA...');
+            alert('Iniciando Experiencia IA');
+        }
+
+        function verAvatares() {
+            // Aquí puedes agregar la lógica para ver los avatares creados
+            // Por ejemplo, redirigir a otra página o mostrar una galería
+            console.log('Ver Avatares creados...');
+            alert('Ver Avatares creados');
+        }
+    </script>
+</body>
+
+</html>
