@@ -201,7 +201,6 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
             animation: fadeIn 0.4s ease;
         }
 
@@ -215,10 +214,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .avatar-card:active {
-            transform: scale(0.98);
         }
 
         .avatar-image-container {
@@ -237,10 +232,12 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
-        }
-
-        .avatar-card:active .avatar-image {
-            transform: scale(1.05);
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         .avatar-info {
@@ -413,7 +410,7 @@
     </div>
 
     <!-- Stats -->
-    <div class="stats-bar">
+    <div class="stats-bar" style="display: none;">
         <div class="stats-item">
             <div class="stats-number" id="statsTotal">0</div>
             <div class="stats-label">Total</div>
@@ -537,9 +534,9 @@
             grid.innerHTML = filteredAvatares.map(avatar => {
                 const fecha = formatDate(avatar.fecha_creacion);
                 return `
-                    <div class="avatar-card" onclick="openImage('${avatar.imagen_generada}')">
-                        <div class="avatar-image-container">
-                            <img src="${avatar.imagen_generada}" alt="${avatar.nombre}" class="avatar-image" loading="lazy">
+                    <div class="avatar-card">
+                        <div class="avatar-image-container" oncontextmenu="return false;">
+                            <img src="${avatar.imagen_generada}" alt="${avatar.nombre}" class="avatar-image" loading="lazy" oncontextmenu="return false;" draggable="false">
                         </div>
                         <div class="avatar-info">
                             <div class="avatar-name">${avatar.nombre}</div>
@@ -573,16 +570,27 @@
             });
         }
 
-        // Abrir imagen en nueva pestaña
-        function openImage(url) {
-            window.open(url, '_blank');
-        }
-
         // Mostrar error
         function showError() {
             document.getElementById('loadingContainer').style.display = 'none';
             document.getElementById('errorContainer').style.display = 'block';
         }
+
+        // Prevenir descarga de imágenes
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Prevenir arrastrar imágenes
+        document.addEventListener('dragstart', function (e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
 
         // Iniciar
         loadAvatares();
