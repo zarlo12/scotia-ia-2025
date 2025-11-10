@@ -464,10 +464,8 @@
         // Poblar filtros
         function populateFilters() {
             const paises = [...new Set(allAvatares.map(a => a.pais))].sort();
-            const sucursales = [...new Set(allAvatares.map(a => a.sucursal))].sort();
 
             const filterPais = document.getElementById('filterPais');
-            const filterSucursal = document.getElementById('filterSucursal');
 
             paises.forEach(pais => {
                 const option = document.createElement('option');
@@ -476,16 +474,49 @@
                 filterPais.appendChild(option);
             });
 
-            sucursales.forEach(sucursal => {
-                const option = document.createElement('option');
-                option.value = sucursal;
-                option.textContent = sucursal;
-                filterSucursal.appendChild(option);
-            });
-
             // Event listeners
-            filterPais.addEventListener('change', applyFilters);
-            filterSucursal.addEventListener('change', applyFilters);
+            filterPais.addEventListener('change', onPaisChange);
+            document.getElementById('filterSucursal').addEventListener('change', applyFilters);
+        }
+
+        // Actualizar sucursales cuando cambia el país
+        function onPaisChange() {
+            const paisFilter = document.getElementById('filterPais').value;
+            const filterSucursal = document.getElementById('filterSucursal');
+
+            // Limpiar sucursales
+            filterSucursal.innerHTML = '<option value="">Todas las sucursales</option>';
+
+            if (paisFilter) {
+                // Obtener sucursales del país seleccionado que existen en los datos
+                const sucursalesPais = [...new Set(
+                    allAvatares
+                        .filter(a => a.pais === paisFilter)
+                        .map(a => a.sucursal)
+                )].sort();
+
+                sucursalesPais.forEach(sucursal => {
+                    const option = document.createElement('option');
+                    option.value = sucursal;
+                    option.textContent = sucursal;
+                    filterSucursal.appendChild(option);
+                });
+            } else {
+                // Si no hay país seleccionado, mostrar todas las sucursales
+                const todasSucursales = [...new Set(allAvatares.map(a => a.sucursal))].sort();
+                todasSucursales.forEach(sucursal => {
+                    const option = document.createElement('option');
+                    option.value = sucursal;
+                    option.textContent = sucursal;
+                    filterSucursal.appendChild(option);
+                });
+            }
+
+            // Resetear el select de sucursal
+            filterSucursal.value = '';
+
+            // Aplicar filtros
+            applyFilters();
         }
 
         // Aplicar filtros
@@ -507,6 +538,18 @@
         function clearFilters() {
             document.getElementById('filterPais').value = '';
             document.getElementById('filterSucursal').value = '';
+
+            // Repoblar todas las sucursales
+            const filterSucursal = document.getElementById('filterSucursal');
+            filterSucursal.innerHTML = '<option value="">Todas las sucursales</option>';
+            const todasSucursales = [...new Set(allAvatares.map(a => a.sucursal))].sort();
+            todasSucursales.forEach(sucursal => {
+                const option = document.createElement('option');
+                option.value = sucursal;
+                option.textContent = sucursal;
+                filterSucursal.appendChild(option);
+            });
+
             applyFilters();
         }
 
