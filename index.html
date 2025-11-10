@@ -119,11 +119,28 @@
             background: #231F20;
         }
 
+        /* Estilos para desktop */
+        #unity-container.unity-desktop {
+            width: 100%;
+            height: 0;
+            padding-bottom: 62.5%;
+            /* Aspect ratio 960:600 (16:10) */
+            position: relative;
+        }
+
+        .unity-desktop #unity-canvas {
+            width: 100% !important;
+            height: 100% !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Estilos para móvil */
         #unity-container.unity-mobile {
             width: 100%;
             height: 0;
             padding-bottom: 100%;
-            /* Aspect ratio 16:10 para un cuadro más balanceado */
             position: relative;
         }
 
@@ -276,7 +293,7 @@
 
         <!-- Unity Container -->
         <div class="unity-wrapper">
-            <div id="unity-container">
+            <div id="unity-container" class="unity-desktop">
                 <canvas id="unity-canvas" tabindex="-1"></canvas>
                 <div id="unity-loading-bar">
                     <div id="unity-logo"></div>
@@ -341,11 +358,8 @@
             document.querySelector("#unity-container").className = "unity-mobile";
             canvas.className = "unity-mobile";
             // config.devicePixelRatio = 1; // Descomenta si necesitas mejor rendimiento
-        } else {
-            // Desktop style
-            canvas.style.width = "960px";
-            canvas.style.height = "600px";
         }
+        // Si no es móvil, mantiene la clase unity-desktop que ya tiene por defecto
 
         // Mostrar barra de carga
         document.querySelector("#unity-loading-bar").style.display = "block";
