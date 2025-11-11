@@ -202,6 +202,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 32px;
         }
 
         .btn {
@@ -239,6 +240,102 @@
         .btn-secondary:active {
             transform: translateY(2px);
             box-shadow: 0 2px 8px rgba(236, 28, 36, 0.3);
+        }
+
+        /* Sección de Instrucciones */
+        .instructions-section {
+            width: 100%;
+            max-width: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 16px;
+            padding: 24px 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+        }
+
+        .instructions-intro {
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .instructions-intro strong {
+            color: #EC1C24;
+            font-weight: 600;
+        }
+
+        .flying-s-note {
+            background: transparent;
+            border-left: none;
+            padding: 12px 0;
+            margin: 16px 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .flying-s-note .icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+
+        .instructions-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .instructions-title span {
+            color: #EC1C24;
+        }
+
+        .instructions-content {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #444;
+            text-align: justify;
+        }
+
+        .instructions-content ol {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        .instructions-content li {
+            margin-bottom: 12px;
+            padding-left: 8px;
+        }
+
+        .instructions-content strong {
+            color: #EC1C24;
+            font-weight: 600;
+        }
+
+        .closing-message {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .closing-message p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .closing-message .highlight {
+            color: #EC1C24;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         /* Responsivo para pantallas muy pequeñas */
@@ -307,8 +404,37 @@
 
         <!-- Botones -->
         <div class="buttons-container">
-            <button class="btn btn-primary" onclick="iniciarExperiencia()">Vivir Experiencia IA</button>
-            <button class="btn btn-secondary" onclick="verAvatares()">Ver Avatares creados</button>
+            <button class="btn btn-primary" onclick="iniciarExperiencia()">Crear mi avatar IA</button>
+            <button class="btn btn-secondary" onclick="verAvatares()">Ver avatares creados</button>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="instructions-section">
+            <div class="instructions-intro">
+                En este sitio web podrás vivir la experiencia de <strong>nuestro legado Scotiabank</strong>, impulsada
+                por inteligencia artificial.
+            </div>
+
+            <div class="flying-s-note">
+                A medida que interactúas, el logo <strong>"Flying S"</strong> se irá formando con el tiempo.
+            </div>
+
+            <h3 class="instructions-title"><span>Instrucciones</span></h3>
+
+            <div class="instructions-content">
+                <ol>
+                    <li>Haz clic en <strong>"Crear mi avatar IA"</strong> y sigue las indicaciones del chat en WhatsApp.
+                    </li>
+                    <li>Recibe y comparte tu avatar a través de WhatsApp.</li>
+                    <li>Explora los avatares generados por país y sucursal en <strong>"Ver avatares creados"</strong>.
+                    </li>
+                </ol>
+            </div>
+
+            <div class="closing-message">
+                <p>¡Disfruta esta experiencia única!</p>
+                <p class="highlight">¡Gracias por ser parte de nuestro legado!</p>
+            </div>
         </div>
     </div>
 
