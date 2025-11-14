@@ -116,7 +116,7 @@
         #unity-container {
             position: relative;
             width: 100%;
-            background: #231F20;
+            background: #FFFFFF;
         }
 
         /* Estilos para desktop */
@@ -134,6 +134,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            background: #FFFFFF;
         }
 
         /* Estilos para móvil */
@@ -145,7 +146,8 @@
         }
 
         #unity-canvas {
-            background: #231F20;
+            background: #FFFFFF;
+            display: block;
         }
 
         .unity-mobile #unity-canvas {
@@ -156,43 +158,48 @@
             left: 0;
         }
 
-        #unity-loading-bar {
+        /* OVERLAY DE CARGA */
+        #loading-overlay {
             position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
+            inset: 0;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
-        #unity-logo {
-            width: 154px;
-            height: 130px;
-            background: url('TemplateData/unity-logo-dark.png') no-repeat center;
+        #loading-inner {
+            min-width: 200px;
+            max-width: 320px;
+            text-align: center;
         }
 
-        #unity-progress-bar-empty {
-            width: 141px;
-            height: 18px;
-            margin-top: 10px;
-            margin-left: 6.5px;
-            background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center;
+        #loading-title {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #333333;
         }
 
-        #unity-progress-bar-full {
+        #loading-bar {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #EEEEEE;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        #loading-bar-fill {
             width: 0%;
-            height: 18px;
-            margin-top: 10px;
-            background: url('TemplateData/progress-bar-full-dark.png') no-repeat center;
+            height: 100%;
+            background: #EC1C24;
+            transition: width 0.1s linear;
         }
 
-        #unity-warning {
-            position: absolute;
-            left: 50%;
-            top: 5%;
-            transform: translate(-50%);
-            background: white;
-            padding: 10px;
-            display: none;
+        #loading-percent {
+            font-size: 14px;
+            color: #555555;
         }
 
         /* Botones */
@@ -406,13 +413,17 @@
         <div class="unity-wrapper">
             <div id="unity-container" class="unity-desktop">
                 <canvas id="unity-canvas" tabindex="-1"></canvas>
-                <div id="unity-loading-bar">
-                    <div id="unity-logo"></div>
-                    <div id="unity-progress-bar-empty">
-                        <div id="unity-progress-bar-full"></div>
+
+                <!-- Overlay de carga -->
+                <div id="loading-overlay">
+                    <div id="loading-inner">
+                        <div id="loading-title">Cargando...</div>
+                        <div id="loading-bar">
+                            <div id="loading-bar-fill"></div>
+                        </div>
+                        <div id="loading-percent">0%</div>
                     </div>
                 </div>
-                <div id="unity-warning"></div>
             </div>
         </div>
 
@@ -453,36 +464,17 @@
         </div>
     </div>
 
+    <!-- Loader de Unity 6 -->
+    <script src="Build/Builds.loader.js"></script>
     <script>
-        var canvas = document.querySelector("#unity-canvas");
-        var unityInstanceGlobal;
+        const canvas = document.getElementById("unity-canvas");
+        const overlay = document.getElementById("loading-overlay");
+        const barFill = document.getElementById("loading-bar-fill");
+        const percentText = document.getElementById("loading-percent");
 
-        // Shows a temporary message banner/ribbon for a few seconds, or
-        // a permanent error message on top of the canvas if type=='error'.
-        // If type=='warning', a yellow highlight color is used.
-        function unityShowBanner(msg, type) {
-            var warningBanner = document.querySelector("#unity-warning");
-            function updateBannerVisibility() {
-                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-            }
-            var div = document.createElement('div');
-            div.innerHTML = msg;
-            warningBanner.appendChild(div);
-            if (type == 'error') div.style = 'background: red; padding: 10px;';
-            else {
-                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-                setTimeout(function () {
-                    warningBanner.removeChild(div);
-                    updateBannerVisibility();
-                }, 5000);
-            }
-            updateBannerVisibility();
-        }
+        const buildUrl = "Build";
 
-        var buildUrl = "Build";
-        var loaderUrl = buildUrl + "/Builds.loader.js";
-        var config = {
-            arguments: [],
+        const config = {
             dataUrl: buildUrl + "/Builds.data.unityweb",
             frameworkUrl: buildUrl + "/Builds.framework.js.unityweb",
             codeUrl: buildUrl + "/Builds.wasm.unityweb",
@@ -490,36 +482,28 @@
             companyName: "DefaultCompany",
             productName: "ScotiaBank 3 Dias",
             productVersion: "0.1.0",
-            showBanner: unityShowBanner,
         };
 
         // Configuración automática para móviles
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            // Mobile device style: aplicar clase unity-mobile
             document.querySelector("#unity-container").className = "unity-mobile";
-            canvas.className = "unity-mobile";
-            // config.devicePixelRatio = 1; // Descomenta si necesitas mejor rendimiento
         }
-        // Si no es móvil, mantiene la clase unity-desktop que ya tiene por defecto
 
-        // Mostrar barra de carga
-        document.querySelector("#unity-loading-bar").style.display = "block";
-
-        // Cargar Unity
-        var script = document.createElement("script");
-        script.src = loaderUrl;
-        script.onload = () => {
-            createUnityInstance(canvas, config, (progress) => {
-                document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-            }).then((unityInstance) => {
-                unityInstanceGlobal = unityInstance;
-                document.querySelector("#unity-loading-bar").style.display = "none";
-            }).catch((message) => {
-                alert(message);
-            });
-        };
-
-        document.body.appendChild(script);
+        // Cargar Unity con nuevo sistema de progress
+        createUnityInstance(canvas, config, (progress) => {
+            const pct = Math.round(progress * 100);
+            barFill.style.width = pct + "%";
+            percentText.textContent = pct + "%";
+        }).then((unityInstance) => {
+            overlay.style.display = "none";
+            window.unityInstance = unityInstance;
+        }).catch((message) => {
+            console.error(message);
+            percentText.textContent = "Error";
+            document.getElementById("loading-title").textContent = "Error al cargar";
+            barFill.style.width = "100%";
+            barFill.style.background = "#FF5555";
+        });
 
         // Funciones de los botones
         function iniciarExperiencia() {
