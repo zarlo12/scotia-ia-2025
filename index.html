@@ -345,7 +345,7 @@
             }
         }
 
-        /* Responsivo para pantallas más grandes */
+        /* Responsive para pantallas más grandes */
         @media (min-width: 481px) {
             .container {
                 max-width: 600px;
@@ -363,10 +363,255 @@
                 max-width: 400px;
             }
         }
+
+        /* ===== AVISO DE PRIVACIDAD ===== */
+        .privacy-banner {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF3D6 100%);
+            border-left: 4px solid #EC1C24;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 0 16px 24px;
+            box-shadow: 0 4px 12px rgba(236, 28, 36, 0.15);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .privacy-banner-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #EC1C24;
+            margin-bottom: 12px;
+        }
+
+        .privacy-banner-icon {
+            font-size: 20px;
+        }
+
+        .privacy-banner-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .privacy-banner-text strong {
+            color: #EC1C24;
+            font-weight: 600;
+        }
+
+        .privacy-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #EC1C24;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+
+        .privacy-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal de Términos */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #EC1C24 0%, #c41820 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px 16px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .modal-header p {
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+        }
+
+        .modal-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #EC1C24;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .modal-section ul,
+        .modal-section ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .modal-section li {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .modal-highlight {
+            background: #FFF9E6;
+            border-left: 3px solid #EC1C24;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .modal-highlight strong {
+            color: #EC1C24;
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            bottom: 0;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .modal-close-btn {
+            background: #EC1C24;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(236, 28, 36, 0.3);
+        }
+
+        .modal-close-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(236, 28, 36, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                max-height: 90vh;
+            }
+
+            .modal-header {
+                padding: 20px;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-section h3 {
+                font-size: 15px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Aviso de Privacidad Banner -->
+    <div class="privacy-banner">
+        <div class="privacy-banner-title">
+            <span class="privacy-banner-icon">🔒</span>
+            Aviso Importante
+        </div>
+        <div class="privacy-banner-text">
+            Esta es una <strong>experiencia interna para empleados de Scotiabank</strong>. Aunque este no es un dominio
+            oficial del banco, la experiencia está <strong>autorizada y avalada</strong> por la entidad. No se
+            solicitarán datos bancarios ni información sensible en ningún momento.
+        </div>
+        <a class="privacy-link" onclick="openTermsModal()">
+            📄 Ver Términos de Uso, Privacidad y Consentimiento de Datos
+        </a>
+    </div>
+
     <div class="container">
         <!-- Logo -->
         <div class="logo-container">
@@ -485,7 +730,89 @@
             // Redirigir a la página de avatares
             window.location.href = 'avatares.html';
         }
+
+        // Funciones del modal de términos
+        function openTermsModal() {
+            document.getElementById('termsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.addEventListener('click', function (e) {
+            const modal = document.getElementById('termsModal');
+            if (e.target === modal) {
+                closeTermsModal();
+            }
+        });
     </script>
+
+    <!-- Modal de Términos y Privacidad -->
+    <div id="termsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Términos de Uso, Privacidad y Autorización de Imagen</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <p>The Bank of Nova Scotia, identificado con RUC 1031-503-116426 DV26, informa a los participantes
+                        que esta es una experiencia interna, autorizada y controlada por Scotiabank, creada
+                        exclusivamente para colaboradores durante las fechas 17, 18 y 19 de noviembre de 2025, en los
+                        países de Costa Rica y Panamá.</p>
+                    <p>Esta experiencia consiste en la generación de un avatar personalizado mediante tecnologías de
+                        inteligencia artificial, basado en temáticas institucionales del banco. Para ello, los
+                        participantes podrán enviar voluntariamente una selfie a través del botón de WhatsApp disponible
+                        en este sitio web, con el único objetivo de generar y entregar su avatar.</p>
+                    <p><strong>En ningún momento se solicitarán datos bancarios, financieros, contraseñas ni información
+                            sensible.</strong><br>
+                        La información proporcionada será usada exclusivamente para los fines señalados y no será
+                        compartida con terceros no autorizados.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3>🧾 Autorización de Uso de Imagen y Datos Personales</h3>
+                    <p>Al participar y enviar una selfie por WhatsApp, el usuario autoriza de manera libre, previa,
+                        expresa e informada a The Bank of Nova Scotia (RUC 1031-503-116426 DV26) para:</p>
+                    <ol>
+                        <li>Captar, procesar y utilizar su imagen, fotografía y nombre en la creación del avatar
+                            generado por inteligencia artificial.</li>
+                        <li>Almacenar temporalmente la fotografía únicamente durante el tiempo necesario para procesar y
+                            generar el avatar.</li>
+                        <li>Eliminar de forma segura la fotografía original una vez completado el proceso de generación.
+                        </li>
+                        <li>Usar el avatar generado exclusivamente para fines internos, de integración y actividades
+                            recreativas relacionadas con esta iniciativa aprobada por Scotiabank.</li>
+                    </ol>
+                    <p>El tratamiento de la imagen y datos personales se realizará conforme a las políticas internas de
+                        privacidad del banco y dentro del alcance de esta actividad específica.</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3>📌 Condiciones de Participación</h3>
+                    <ul>
+                        <li>La participación es 100% voluntaria.</li>
+                        <li>No se solicitará información financiera, datos sensibles ni credenciales bancarias.</li>
+                        <li>El proceso se limita a:
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Escanear un código QR,</li>
+                                <li>Acceder a este sitio web,</li>
+                                <li>Enviar una selfie mediante WhatsApp para recibir el avatar generado.</li>
+                            </ul>
+                        </li>
+                        <li>Todos los datos serán tratados únicamente durante el período de ejecución: 17, 18 y 19 de
+                            noviembre de 2025.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-close-btn" onclick="closeTermsModal()">Entendido</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
