@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Estadísticas - Nuestro Legado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #EC1C24 0%, #c41820 100%);
+            color: white;
+            padding: 24px 20px;
+            box-shadow: 0 4px 16px rgba(236, 28, 36, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-subtitle {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        /* Summary Cards */
+        .summary-section {
+            margin-bottom: 32px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 600px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .summary-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(236, 28, 36, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .summary-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #EC1C24;
+            line-height: 1;
+        }
+
+        /* Days Section */
+        .days-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 900px) {
+            .days-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .day-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(236, 28, 36, 0.2);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #EC1C24 0%, #c41820 100%);
+            color: white;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .day-date {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            opacity: 0.95;
+        }
+
+        .day-name {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .day-body {
+            padding: 24px;
+        }
+
+        .day-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #EC1C24;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .breakdown-section {
+            margin-bottom: 20px;
+        }
+
+        .breakdown-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breakdown-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .breakdown-name {
+            color: #444;
+            font-weight: 500;
+        }
+
+        .breakdown-count {
+            background: #EC1C24;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #EC1C24 0%, #c41820 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(236, 28, 36, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(236, 28, 36, 0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(236, 28, 36, 0.3);
+        }
+
+        .download-icon {
+            font-size: 18px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 56px;
+            height: 56px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #EC1C24;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Error */
+        .error-state {
+            background: #fff5f5;
+            border: 2px solid #ffebee;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px 16px;
+            text-align: center;
+        }
+
+        .error-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+        }
+
+        .error-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #EC1C24;
+            margin-bottom: 12px;
+        }
+
+        .error-text {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">
+                📊 Estadísticas Nuestro Legado
+            </h1>
+            <p class="header-subtitle">Panel de análisis de avatares generados - Noviembre 2025</p>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingContainer" class="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Cargando estadísticas...</div>
+    </div>
+
+    <!-- Error -->
+    <div id="errorContainer" class="error-state" style="display: none;">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Error al cargar las estadísticas</div>
+        <div class="error-text">Por favor, intenta nuevamente más tarde.</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="container" style="display: none;">
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon">🎨</div>
+                    <div class="summary-label">Total Avatares</div>
+                    <div class="summary-value" id="totalAvatares">0</div>
+                </div>
+                <div class="summary-card" style="display: none;">
+                    <div class="summary-icon">🌎</div>
+                    <div class="summary-label">Países</div>
+                    <div class="summary-value" id="totalPaises">0</div>
+                </div>
+                <div class="summary-card" style="display: none;">
+                    <div class="summary-icon">🏢</div>
+                    <div class="summary-label">Sucursales</div>
+                    <div class="summary-value" id="totalSucursales">0</div>
+                </div>
+                <div class="summary-card" style="display: none;">
+                    <div class="summary-icon">📅</div>
+                    <div class="summary-label">Días Activos</div>
+                    <div class="summary-value" id="diasActivos">3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Days Section -->
+        <div class="days-section">
+            <h2 class="section-title">
+                📆 Desglose por Día
+            </h2>
+            <div class="days-grid" id="daysGrid">
+                <!-- Days will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        const targetDays = [
+            { date: '2025-11-17', name: 'Lunes 17', dayName: 'Lunes' },
+            { date: '2025-11-18', name: 'Martes 18', dayName: 'Martes' },
+            { date: '2025-11-19', name: 'Miércoles 19', dayName: 'Miércoles' }
+        ];
+
+        // Cargar datos
+        async function loadData() {
+            try {
+                const response = await fetch('https://us-central1-imagen-ia-845a3.cloudfunctions.net/getDatosScotia');
+                const result = await response.json();
+
+                if (result.success) {
+                    allData = result.data;
+                    processData();
+                    document.getElementById('loadingContainer').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                } else {
+                    showError();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError();
+            }
+        }
+
+        // Procesar datos
+        function processData() {
+            // Calcular estadísticas generales
+            const totalAvatares = allData.length;
+            const paises = [...new Set(allData.map(item => item.pais))];
+            const sucursales = [...new Set(allData.map(item => item.sucursal))];
+
+            document.getElementById('totalAvatares').textContent = totalAvatares;
+            document.getElementById('totalPaises').textContent = paises.length;
+            document.getElementById('totalSucursales').textContent = sucursales.length;
+
+            // Procesar por día
+            const daysGrid = document.getElementById('daysGrid');
+            daysGrid.innerHTML = '';
+
+            targetDays.forEach((day, index) => {
+                const dayData = filterByDate(day.date);
+                const dayCard = createDayCard(day, dayData, index);
+                daysGrid.appendChild(dayCard);
+            });
+        }
+
+        // Filtrar por fecha
+        function filterByDate(dateString) {
+            const targetDate = new Date(dateString + 'T00:00:00');
+            const nextDate = new Date(targetDate);
+            nextDate.setDate(nextDate.getDate() + 1);
+
+            return allData.filter(item => {
+                const itemDate = new Date(item.fecha_timestamp);
+                return itemDate >= targetDate && itemDate < nextDate;
+            });
+        }
+
+        // Crear card de día
+        function createDayCard(day, data, index) {
+            const card = document.createElement('div');
+            card.className = 'day-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            // Estadísticas del día
+            const totalDay = data.length;
+            const paisesCounts = {};
+            const sucursalesCounts = {};
+
+            data.forEach(item => {
+                paisesCounts[item.pais] = (paisesCounts[item.pais] || 0) + 1;
+                sucursalesCounts[item.sucursal] = (sucursalesCounts[item.sucursal] || 0) + 1;
+            });
+
+            const paisesCount = Object.keys(paisesCounts).length;
+            const sucursalesCount = Object.keys(sucursalesCounts).length;
+
+            // Ordenar por cantidad
+            const topPaises = Object.entries(paisesCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3);
+
+            const topSucursales = Object.entries(sucursalesCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            card.innerHTML = `
+                <div class="day-header">
+                    <div class="day-date">${day.date}</div>
+                    <div class="day-name">${day.dayName}</div>
+                </div>
+                <div class="day-body">
+                    <div class="day-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon">🎨</div>
+                            <div class="stat-value">${totalDay}</div>
+                            <div class="stat-label">Avatares</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">🌎</div>
+                            <div class="stat-value">${paisesCount}</div>
+                            <div class="stat-label">Países</div>
+                        </div>
+                    </div>
+
+                    ${topPaises.length > 0 ? `
+                    <div class="breakdown-section">
+                        <div class="breakdown-title">
+                            🌎 Por País
+                        </div>
+                        <div class="breakdown-list">
+                            ${topPaises.map(([pais, count]) => `
+                                <div class="breakdown-item">
+                                    <span class="breakdown-name">${pais}</span>
+                                    <span class="breakdown-count">${count}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${topSucursales.length > 0 ? `
+                    <div class="breakdown-section">
+                        <div class="breakdown-title">
+                            🏢 Top 5 Sucursales
+                        </div>
+                        <div class="breakdown-list">
+                            ${topSucursales.map(([sucursal, count]) => `
+                                <div class="breakdown-item">
+                                    <span class="breakdown-name">${sucursal}</span>
+                                    <span class="breakdown-count">${count}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    ${totalDay === 0 ? `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <div class="empty-text">Sin registros este día</div>
+                    </div>
+                    ` : ''}
+
+                    <button class="download-btn" onclick="downloadExcel('${day.date}', '${day.dayName}')" ${totalDay === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                        <span class="download-icon">📥</span>
+                        Descargar Excel
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Descargar Excel
+        function downloadExcel(dateString, dayName) {
+            const dayData = filterByDate(dateString);
+
+            if (dayData.length === 0) {
+                alert('No hay datos para descargar de este día');
+                return;
+            }
+
+            // Crear CSV (compatible con Excel)
+            let csv = '\ufeff'; // BOM para UTF-8
+            csv += 'ID,Nombre,País,Sucursal,Fecha Creación,URL Imagen\n';
+
+            dayData.forEach(item => {
+                const fecha = new Date(item.fecha_timestamp);
+                const fechaFormateada = fecha.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+
+                csv += `"${item.id}","${item.nombre}","${item.pais}","${item.sucursal}","${fechaFormateada}","${item.imagen_generada}"\n`;
+            });
+
+            // Descargar archivo
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Avatares_${dayName}_${dateString}.csv`);
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Mostrar error
+        function showError() {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('errorContainer').style.display = 'block';
+        }
+
+        // Iniciar
+        loadData();
+    </script>
+</body>
+
+</html>
