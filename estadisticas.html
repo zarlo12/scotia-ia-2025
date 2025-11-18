@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Estadísticas - Nuestro Legado</title>
+
+    <!-- JSZip para crear archivos ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -449,6 +453,13 @@
                 <span class="download-icon">📦</span>
                 Descargar Excel Completo (Todos los Días)
             </button>
+
+            <!-- Botón de descarga de imágenes -->
+            <button class="download-btn" onclick="downloadAllImages()" id="downloadImagesBtn"
+                style="max-width: 500px; margin: 16px auto 0; display: flex; background: linear-gradient(135deg, #2C5FA8 0%, #1e4278 100%);">
+                <span class="download-icon">🖼️</span>
+                <span id="downloadImagesText">Descargar Todas las Imágenes (ZIP)</span>
+            </button>
         </div> <!-- Days Section -->
         <div class="days-section">
             <h2 class="section-title">
@@ -714,6 +725,136 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // Descargar todas las imágenes en ZIP
+        async function downloadAllImages() {
+            if (!window.JSZip) {
+                alert('Error: Librería JSZip no cargada. Por favor, recarga la página.');
+                return;
+            }
+
+            if (allData.length === 0) {
+                alert('No hay imágenes para descargar');
+                return;
+            }
+
+            const btn = document.getElementById('downloadImagesBtn');
+            const btnText = document.getElementById('downloadImagesText');
+            const originalText = btnText.textContent;
+
+            try {
+                // Deshabilitar botón
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'not-allowed';
+
+                // Filtrar solo datos de los 3 días del evento
+                const eventData = allData.filter(item => {
+                    const itemDate = new Date(item.fecha_timestamp);
+                    const eventStart = new Date('2025-11-17T00:00:00');
+                    const eventEnd = new Date('2025-11-20T00:00:00');
+                    return itemDate >= eventStart && itemDate < eventEnd;
+                });
+
+                if (eventData.length === 0) {
+                    alert('No hay imágenes del evento para descargar');
+                    return;
+                }
+
+                btnText.textContent = `Preparando... (0/${eventData.length})`;
+
+                const zip = new JSZip();
+                let successCount = 0;
+                let errorCount = 0;
+
+                // Descargar imágenes en lotes para no sobrecargar
+                const batchSize = 5;
+                for (let i = 0; i < eventData.length; i += batchSize) {
+                    const batch = eventData.slice(i, Math.min(i + batchSize, eventData.length));
+
+                    await Promise.all(batch.map(async (item, batchIndex) => {
+                        const index = i + batchIndex;
+                        try {
+                            btnText.textContent = `Descargando... (${index + 1}/${eventData.length})`;
+
+                            const response = await fetch(item.imagen_generada);
+                            if (!response.ok) throw new Error('Error al descargar');
+
+                            const blob = await response.blob();
+
+                            // Determinar el día
+                            const fecha = new Date(item.fecha_timestamp);
+                            const dia = fecha.getDate();
+                            let carpetaDia = '';
+                            if (dia === 17) carpetaDia = 'Domingo_17';
+                            else if (dia === 18) carpetaDia = 'Lunes_18';
+                            else if (dia === 19) carpetaDia = 'Martes_19';
+                            else carpetaDia = 'Otros';
+
+                            // Obtener extensión de la URL
+                            const extension = item.imagen_generada.split('.').pop().split('?')[0] || 'png';
+
+                            // Limpiar nombre para evitar caracteres problemáticos
+                            const nombreLimpio = item.nombre.replace(/[^a-zA-Z0-9]/g, '_');
+                            const nombreArchivo = `${carpetaDia}/${nombreLimpio}_${item.id.substring(0, 8)}.${extension}`;
+
+                            zip.file(nombreArchivo, blob);
+                            successCount++;
+                        } catch (error) {
+                            console.error(`Error descargando imagen ${item.id}:`, error);
+                            errorCount++;
+                        }
+                    }));
+                }
+
+                if (successCount === 0) {
+                    alert('No se pudo descargar ninguna imagen. Por favor, intenta de nuevo.');
+                    return;
+                }
+
+                btnText.textContent = 'Comprimiendo ZIP...';
+
+                // Generar ZIP
+                const zipBlob = await zip.generateAsync({
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 6 }
+                }, (metadata) => {
+                    const percent = Math.round(metadata.percent);
+                    btnText.textContent = `Comprimiendo... ${percent}%`;
+                });
+
+                // Descargar
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(zipBlob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `Avatares_Imagenes_17-19_Noviembre_2025.zip`);
+                link.style.visibility = 'hidden';
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                btnText.textContent = originalText;
+
+                if (errorCount > 0) {
+                    alert(`Descarga completada!\n✅ ${successCount} imágenes descargadas\n⚠️ ${errorCount} imágenes con error`);
+                } else {
+                    alert(`¡Descarga completada exitosamente!\n✅ ${successCount} imágenes descargadas`);
+                }
+
+            } catch (error) {
+                console.error('Error al crear ZIP:', error);
+                alert('Error al crear el archivo ZIP. Por favor, intenta de nuevo.');
+                btnText.textContent = originalText;
+            } finally {
+                // Rehabilitar botón
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
         }
 
         // Mostrar error
