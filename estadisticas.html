@@ -442,9 +442,14 @@
                     <div class="summary-value" id="diasActivos">3</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Days Section -->
+            <!-- Botón de descarga general -->
+            <button class="download-btn" onclick="downloadAllExcel()"
+                style="max-width: 500px; margin: 24px auto 0; display: flex;">
+                <span class="download-icon">📦</span>
+                Descargar Excel Completo (Todos los Días)
+            </button>
+        </div> <!-- Days Section -->
         <div class="days-section">
             <h2 class="section-title">
                 📆 Desglose por Día
@@ -613,7 +618,7 @@
             return card;
         }
 
-        // Descargar Excel
+        // Descargar Excel de un día específico
         function downloadExcel(dateString, dayName) {
             const dayData = filterByDate(dateString);
 
@@ -647,6 +652,63 @@
 
             link.setAttribute('href', url);
             link.setAttribute('download', `Avatares_${dayName}_${dateString}.csv`);
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Descargar Excel completo (todos los días)
+        function downloadAllExcel() {
+            if (allData.length === 0) {
+                alert('No hay datos para descargar');
+                return;
+            }
+
+            // Crear CSV (compatible con Excel)
+            let csv = '\ufeff'; // BOM para UTF-8
+            csv += 'ID,Nombre,País,Sucursal,Fecha Creación,Día,URL Imagen\n';
+
+            // Filtrar solo datos de los 3 días del evento
+            const eventData = allData.filter(item => {
+                const itemDate = new Date(item.fecha_timestamp);
+                const eventStart = new Date('2025-11-17T00:00:00');
+                const eventEnd = new Date('2025-11-20T00:00:00');
+                return itemDate >= eventStart && itemDate < eventEnd;
+            });
+
+            // Ordenar por fecha
+            eventData.sort((a, b) => a.fecha_timestamp - b.fecha_timestamp);
+
+            eventData.forEach(item => {
+                const fecha = new Date(item.fecha_timestamp);
+                const fechaFormateada = fecha.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+
+                // Determinar el día
+                const dia = fecha.getDate();
+                let nombreDia = '';
+                if (dia === 17) nombreDia = 'Domingo 17';
+                else if (dia === 18) nombreDia = 'Lunes 18';
+                else if (dia === 19) nombreDia = 'Martes 19';
+
+                csv += `"${item.id}","${item.nombre}","${item.pais}","${item.sucursal}","${fechaFormateada}","${nombreDia}","${item.imagen_generada}"\n`;
+            });
+
+            // Descargar archivo
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Avatares_Completo_17-19_Noviembre_2025.csv`);
             link.style.visibility = 'hidden';
 
             document.body.appendChild(link);
